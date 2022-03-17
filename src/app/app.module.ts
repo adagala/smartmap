@@ -9,6 +9,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { MapEffects } from './map/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+const MATERIAL_MODULES = [
+  MatToolbarModule
+]
 
 @NgModule({
   declarations: [
@@ -17,6 +23,8 @@ import { MapEffects } from './map/effects';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    ...MATERIAL_MODULES,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
