@@ -1,4 +1,4 @@
-export interface Sprite {
+export interface ISprite {
     width: number;
     height: number;
     x: number;

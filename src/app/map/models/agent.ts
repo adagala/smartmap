@@ -1,15 +1,15 @@
-import { Geocode } from './geocode';
+import { IGeocode } from './geocode';
 
 export interface Agent {
-    agentInfo: AgentInfo;
-    records: Record[];
+    agentInfo: IAgentInfo;
+    records: IRecord[];
     showContactInfo: boolean;
     role: string;
     title: string;
     body: string;
 }
 
-export interface AgentInfo {
+export interface IAgentInfo {
     accountID: number;
     firstname: string;
     lastname: string;
@@ -18,7 +18,7 @@ export interface AgentInfo {
     customHeader: string;
 }
 
-export interface Record {
+export interface IRecord {
     listID: number;
     order: number;
     propertyID: number;
@@ -40,5 +40,5 @@ export interface Record {
     floorplans: any[];
     highValueAmenities: string[];
     paidUtilities: string[];
-    geocode: Geocode;
+    geocode: IGeocode;
 }

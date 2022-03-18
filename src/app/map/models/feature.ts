@@ -1,16 +1,16 @@
-export interface Features {
+export interface IFeatures {
     type: string;
-    features: Feature[];
+    features: IFeature[];
 }
 
-export interface Feature {
+export interface IFeature {
     id: string;
-    properties: Properties;
+    properties: IProperties;
     type: FeatureType;
-    geometry: Geometry;
+    geometry: IGeometry;
 }
 
-export interface Geometry {
+export interface IGeometry {
     type: ShapeEnum;
     coordinates: Array<Array<Array<number[] | number>>>;
 }
@@ -20,7 +20,7 @@ export enum ShapeEnum {
     Polygon = "Polygon",
 }
 
-export interface Properties {
+export interface IProperties {
     LSAD: Lsad;
     NAME: string;
     bbox: number[];
