@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as mapboxgl from 'mapbox-gl';
 import { map, mergeMap, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private records!: Subscription;
   private boundsSubscription!: Subscription;
   private mapboxglMap!: mapboxgl.Map;
-  private bounds!: mapboxgl.LngLatBoundsLike
+  private bounds!: mapboxgl.LngLatBoundsLike;
 
   constructor(private store: Store) {
     this.store.dispatch(MapActions.loadListings());
@@ -36,9 +36,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       .subscribe(geocode => {
         const longitude = +geocode.Longitude;
         const latitude = +geocode.Latitude;
-        new mapboxgl.Marker({ color: 'pink' })
+
+        const marker = new mapboxgl.Marker({
+          color: 'pink'
+        });
+        const element = marker.getElement();
+        element.style.cursor = 'pointer';
+
+        marker
           .setLngLat([longitude, latitude])
           .addTo(this.mapboxglMap);
+
+        element.addEventListener('click', () => {
+          this.flyTo([longitude, latitude]);
+        });
       });
 
 
@@ -59,6 +70,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   fitBounds() {
     this.mapboxglMap.fitBounds(this.bounds, {
       padding: 100
+    });
+  }
+
+  flyTo(center: mapboxgl.LngLatLike) {
+    this.mapboxglMap.flyTo({
+      center,
+      zoom: 18,
+      bearing: 0,
+      speed: 1.5,
+      curve: 1,
+      easing: (t) => t,
+      essential: true
     });
   }
 }
