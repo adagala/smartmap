@@ -13,7 +13,7 @@ export class MapEffects {
 
   constructor(private actions$: Actions, private service: MapService) { }
 
-  loadEmployees$ = createEffect(() => {
+  loadListings$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(MapActions.loadListings),
       switchMap(() => this.service.getListings()),
