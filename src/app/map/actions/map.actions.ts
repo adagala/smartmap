@@ -1,15 +1,16 @@
 import { createAction, props } from '@ngrx/store';
+import { IRecord } from '../models';
 
-export const loadMaps = createAction(
-  '[Map] Load Maps'
+export const loadListings = createAction(
+  '[Map] Load Listings'
 );
 
-export const loadMapsSuccess = createAction(
-  '[Map] Load Maps Success',
-  props<{ data: any }>()
-);
+export const addListings = createAction(
+  '[Map] Add Listings',
+  props<{ records: IRecord[] }>()
+)
 
-export const loadMapsFailure = createAction(
-  '[Map] Load Maps Failure',
-  props<{ error: any }>()
+export const loadListingsFailure = createAction(
+  '[Map] Load Listings Failure',
+  props<{ error: string | null }>()
 );
