@@ -1,0 +1,15 @@
+.mapContainer {
+  width: 100%;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.nav {
+  width: 25%;
+}
+
+.map {
+  width: 75%;
+}

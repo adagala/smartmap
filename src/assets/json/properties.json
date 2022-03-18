@@ -1,0 +1,139 @@
+[
+    {
+        "listID": 5638557,
+        "order": 1,
+        "propertyID": 70275,
+        "name": "Arrowood",
+        "streetAddress": "8304 South Course Dr",
+        "city": "Houston",
+        "state": "TX",
+        "pets": true,
+        "washerDry": "FULLSIZE_CONNECTIONS",
+        "photo": "",
+        "favorite": false,
+        "highestSentCommissions": 0,
+        "onsiteManager": "Cathy Cornett",
+        "management": "Atlantic Housing Management  AKA Atlantic Housing Foundation",
+        "proximity": 0.0,
+        "section8": true,
+        "seniorHousing": false,
+        "studentHousting": false,
+        "floorplans": [],
+        "highValueAmenities": [
+            "Black/Stainless Appliances",
+            "Fitness Center"
+        ],
+        "paidUtilities": [
+            "Trash"
+        ],
+        "geocode": {
+            "Longitude": "-95.563694",
+            "Latitude": "29.687847",
+            "Percision": "ROOFTOP",
+            "IsValid": true
+        }
+    },
+    {
+        "listID": 5638557,
+        "order": 2,
+        "propertyID": 70284,
+        "name": "Ashford Court",
+        "streetAddress": "12777 Ashford Point",
+        "city": "Houston",
+        "state": "TX",
+        "pets": true,
+        "washerDry": "FULLSIZE_CONNECTIONS",
+        "photo": "https://d3d5tet3r0xd5y.cloudfront.net/photos/70284/micros/1.jpg",
+        "favorite": false,
+        "highestSentCommissions": 0,
+        "onsiteManager": "Krystal Martinez",
+        "management": "Cushman & Wakefield Living (FKA Pinnacle)",
+        "proximity": 0.0,
+        "section8": false,
+        "seniorHousing": false,
+        "studentHousting": false,
+        "floorplans": [],
+        "highValueAmenities": [
+            "Black/Stainless Appliances",
+            "Granite Countertops",
+            "Fitness Center",
+            "Volleyball"
+        ],
+        "paidUtilities": [
+            "Gas",
+            "Trash",
+            "Water"
+        ],
+        "geocode": {
+            "Longitude": "-95.6092",
+            "Latitude": "29.718855",
+            "Percision": "ROOFTOP",
+            "IsValid": true
+        }
+    },
+    {
+        "listID": 5638557,
+        "order": 3,
+        "propertyID": 70681,
+        "name": "Bristol Court",
+        "streetAddress": "8404 South Course Dr",
+        "city": "Houston",
+        "state": "TX",
+        "pets": true,
+        "washerDry": "FULLSIZE_FURNISHED",
+        "photo": "https://d3d5tet3r0xd5y.cloudfront.net/photos/70681/micros/Wed179_6A6.jpg",
+        "favorite": true,
+        "highestSentCommissions": 0,
+        "onsiteManager": "James Taylor",
+        "management": "KVA Asset Management and Brokerage",
+        "proximity": 0.0,
+        "section8": true,
+        "seniorHousing": false,
+        "studentHousting": false,
+        "floorplans": [],
+        "highValueAmenities": [],
+        "paidUtilities": [],
+        "geocode": {
+            "Longitude": "-95.563184",
+            "Latitude": "29.68572",
+            "Percision": "ROOFTOP",
+            "IsValid": true
+        }
+    },
+    {
+        "listID": 5638557,
+        "order": 4,
+        "propertyID": 70737,
+        "name": "Plaza Azul",
+        "streetAddress": "12600 Brookglade Cir",
+        "city": "Houston",
+        "state": "TX",
+        "pets": false,
+        "washerDry": "FULLSIZE_FURNISHED",
+        "photo": "https://d3d5tet3r0xd5y.cloudfront.net/photos/70737/micros/primary-radiancepics241_4CE.jpg",
+        "favorite": false,
+        "highestSentCommissions": 0,
+        "onsiteManager": "Tereza Calderon",
+        "management": "Giri Raj Management LLC",
+        "proximity": 0.0,
+        "section8": false,
+        "seniorHousing": false,
+        "studentHousting": false,
+        "floorplans": [],
+        "highValueAmenities": [
+            "Black/Stainless Appliances",
+            "Wood Floors"
+        ],
+        "paidUtilities": [
+            "Gas",
+            "Trash",
+            "Water"
+        ],
+        "geocode": {
+            "Longitude": "-95.601961",
+            "Latitude": "29.68039",
+            "Percision": "ROOFTOP",
+            "IsValid": true
+        }
+    }
+]

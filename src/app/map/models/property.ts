@@ -1,6 +1,6 @@
-import { Geocode } from './geocode';
+import { IGeocode } from './geocode';
 
-export interface PropertyItem {
+export interface IPropertyItem {
     listID: number;
     propertyID: number;
     yearBuilt: number;
@@ -16,15 +16,15 @@ export interface PropertyItem {
     favorite: boolean;
     notes: string;
     specials: string;
-    parking: Parking;
-    schoolsInfo: SchoolsInfo;
-    petInfo: PetInfo;
+    parking: IParking;
+    schoolsInfo: ISchoolsInfo;
+    petInfo: IPetInfo;
     paidUtilities: string[];
-    floorplans: Floorplan[];
+    floorplans: IFloorplan[];
     highValueAmenities: string[];
     unitAmenities: string[];
     propertyAmenities: string[];
-    geocode: Geocode;
+    geocode: IGeocode;
     photos: string[];
     section8: boolean;
     studentHousting: boolean;
@@ -41,7 +41,7 @@ export interface PropertyItem {
     onsiteManager: null;
 }
 
-export interface Floorplan {
+export interface IFloorplan {
     floorplanID: number;
     bed: number;
     bath: number;
@@ -57,7 +57,7 @@ export interface Floorplan {
     comments: string;
 }
 
-export interface Parking {
+export interface IParking {
     propertyID: number;
     reserved: boolean;
     reservedFeeMin: number;
@@ -75,7 +75,7 @@ export interface Parking {
     attached: boolean;
 }
 
-export interface PetInfo {
+export interface IPetInfo {
     allowed: boolean;
     extraRent: number;
     limit: number;
@@ -84,7 +84,7 @@ export interface PetInfo {
     nonRefundableFee: number;
 }
 
-export interface SchoolsInfo {
+export interface ISchoolsInfo {
     propertyID: number;
     district: string;
     elementry: string;

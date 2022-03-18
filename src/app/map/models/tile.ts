@@ -1,4 +1,4 @@
-export interface Tiles {
+export interface ITiles {
     id: string;
     bounds: number[];
     center: number[];
@@ -13,14 +13,14 @@ export interface Tiles {
     name: string;
     minzoom: number;
     maxzoom: number;
-    vector_layers: VectorLayer[];
+    vector_layers: IVectorLayer[];
     crs: string;
     crs_wkt: string;
     extent: number[];
     tiles: string[];
 }
 
-export interface VectorLayer {
+export interface IVectorLayer {
     id: string;
     minzoom: number;
     maxzoom: number;
