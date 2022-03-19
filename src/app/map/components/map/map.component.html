@@ -1,8 +1,15 @@
 <div class="mapContainer">
     <div class="nav">
-        <button id="autoZoom" (click)="fitBounds()">
+        <button id="autoZoom" (click)="zoomOut()">
             View All Properties
         </button>
+
+        <ng-container *ngIf="selectedLngLat">
+            <br />
+            Longitude: {{ selectedLngLat[0] }}
+            <br />
+            Latitude: {{ selectedLngLat[1] }}
+        </ng-container>
     </div>
     <div class="map" id="map"></div>
 </div>
