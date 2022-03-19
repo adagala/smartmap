@@ -18,12 +18,20 @@ export const {
     selectTotal
 } = fromMaps.mapAdapter.getSelectors(selectEntitiesState);
 
+/**
+  * Provides the selected record
+  */
 export const selectSelectedEntity = createSelector(
     selectEntities,
     selectSelectedId,
     (entities, selectedId) => selectedId && entities[selectedId]
 );
 
+/**
+  * Provides the farthest North Eastern coordinates &
+  * South Western coordinates which act as bounds 
+  * to determine extent of map to be displayed
+  */
 export const selectBounds = createSelector(selectAll, state => {
     const longitudes = state.map(records => +records.geocode.Longitude);
     const latitudes = state.map(records => +records.geocode.Latitude);

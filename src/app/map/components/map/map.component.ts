@@ -92,7 +92,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.fitBounds();
   }
 
-  fitBounds() {
+  /**
+   * Zooms out the map to display all markers depending on bounds
+   * determined by longitudes & latitudes available
+   * @returns void
+   */
+  fitBounds(): void {
     this.mapboxglMap.fitBounds(this.bounds, {
       padding: 100
     });
@@ -112,7 +117,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.toggleMarkerDisplay();
   }
 
-  private setMarkerStyles(id: string, isSelectingPin?: boolean) {
+  /**
+   * Sets marker styles when selecting or unselecting a marker
+   * @param id zooming in or out
+   * @param isSelectingPin zooming in or out
+   * @returns void
+   */
+  private setMarkerStyles(id: string, isSelectingPin?: boolean): void {
     if (!id) return;
 
     const elementSelected = document.getElementById(id);
@@ -123,7 +134,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     svg.querySelector('path').style.fill = fillColor;
   }
 
-  private toggleMarkerDisplay(isZoomOut = false) {
+  /**
+   * Displays all markers if it is zoom out or hides all
+   * markers not selected if it is zoom in
+   * @param isZoomOut zooming in or out
+   * @returns void
+   */
+  private toggleMarkerDisplay(isZoomOut = false): void {
     this.markerIds.forEach(markerId => {
       if (this.selectedMarkerId === markerId) return;
 
