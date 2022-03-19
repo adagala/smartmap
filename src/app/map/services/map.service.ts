@@ -10,6 +10,10 @@ export class MapService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Gets all property records
+   * @returns IRecord[]
+   */
   getListings(): Observable<IRecord[]> {
     return this.http.get<IRecord[]>('./assets/json/properties.json');
   }
