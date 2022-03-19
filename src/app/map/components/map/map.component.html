@@ -6,10 +6,16 @@
 
         <ng-container *ngIf="selectedLngLat">
             <br />
-            Longitude: {{ selectedLngLat[0] }}
+            Selected Longitude: {{ selectedLngLat[0] }}
             <br />
-            Latitude: {{ selectedLngLat[1] }}
+            Selected Latitude: {{ selectedLngLat[1] }}
         </ng-container>
+
+        <br />
+
+        <div>
+            Selected Marker ID: {{ selectedMarkerId }}
+        </div>
     </div>
     <div class="map" id="map"></div>
 </div>

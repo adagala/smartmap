@@ -12,11 +12,13 @@ import * as MapSelectors from '../../selectors';
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   private accessToken = 'pk.eyJ1IjoiYWRhZ2FsYSIsImEiOiJjbDB2ZnRnb2EwMXdjM2ptdDhwa3NxODA1In0.iJDvbyay4kzgGsNAgb3hAw';
-  private records!: Subscription;
-  private boundsSubscription!: Subscription;
-  private mapboxglMap!: mapboxgl.Map;
-  private bounds!: mapboxgl.LngLatBoundsLike;
-  public selectedLngLat: [number, number] | undefined;
+  private records: Subscription;
+  private boundsSubscription: Subscription;
+  private mapboxglMap: mapboxgl.Map;
+  private bounds: mapboxgl.LngLatBoundsLike;
+  public selectedLngLat: [number, number];
+  public selectedMarkerId: string;
+  private markerIds: string[] = [];
 
   constructor(private store: Store) {
     this.store.dispatch(MapActions.loadListings());
@@ -30,18 +32,21 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       zoom: 12
     });
 
-    this.records = this.store.select(MapSelectors.selectGeocodes)
+    this.records = this.store.select(MapSelectors.selectAll)
       .pipe(
-        mergeMap(geocodes => geocodes),
-        map(geocode => geocode))
-      .subscribe(geocode => {
-        const longitude = +geocode.Longitude;
-        const latitude = +geocode.Latitude;
+        mergeMap(records => records),
+        map(record => record))
+      .subscribe(record => {
+        const longitude = +record.geocode.Longitude;
+        const latitude = +record.geocode.Latitude;
+        const propertyId = record.propertyID;
 
-        const marker = new mapboxgl.Marker({
-          color: 'pink'
-        });
+        const marker = new mapboxgl.Marker({ color: 'blue' });
         const element = marker.getElement();
+
+        const id = `${propertyId}_${Math.abs(longitude)}_${Math.abs(latitude)}`;
+        element.id = id;
+        this.markerIds = Array.from(new Set([...this.markerIds, id]));
         element.style.cursor = 'pointer';
 
         marker
@@ -49,6 +54,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           .addTo(this.mapboxglMap);
 
         element.addEventListener('click', () => {
+          this.selectedMarkerId = id;
+          this.setMarkerStyles(id, true);
           this.selectedLngLat = [longitude, latitude];
           this.flyTo([longitude, latitude]);
         });
@@ -58,9 +65,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.boundsSubscription = this.store.select(MapSelectors.selectBounds)
       .subscribe(bounds => {
         this.bounds = bounds;
-        this.mapboxglMap.fitBounds(bounds, {
-          padding: 100
-        });
+        this.fitBounds();
       })
   }
 
@@ -70,7 +75,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   zoomOut() {
+    this.setMarkerStyles(this.selectedMarkerId);
+    this.toggleMarkerDisplay(true);
     this.selectedLngLat = undefined;
+    this.selectedMarkerId = undefined;
     this.fitBounds();
   }
 
@@ -89,6 +97,26 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       curve: 1,
       easing: (t) => t,
       essential: true
+    });
+
+    this.toggleMarkerDisplay();
+  }
+
+  private setMarkerStyles(id: string, isSelectingPin?: boolean) {
+    const elementSelected = document.getElementById(id);
+    const svg = elementSelected.querySelector('svg');
+    svg.style.width = isSelectingPin ? '125%' : '100%';
+    svg.style.height = isSelectingPin ? '125%' : '100%';
+    const fillColor = isSelectingPin ? 'red' : 'blue';
+    svg.querySelector('path').style.fill = fillColor;
+  }
+
+  private toggleMarkerDisplay(isZoomOut = false) {
+    this.markerIds.forEach(markerId => {
+      if (this.selectedMarkerId === markerId) return;
+
+      const elementSelected = document.getElementById(markerId);
+      elementSelected.style.display = isZoomOut ? 'block' : 'none';
     });
   }
 }
