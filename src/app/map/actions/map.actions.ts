@@ -14,3 +14,8 @@ export const loadListingsFailure = createAction(
   '[Map] Load Listings Failure',
   props<{ error: string | null }>()
 );
+
+export const selectListing = createAction(
+  '[Map] Select Listing',
+  props<{ selectedId: string }>()
+);

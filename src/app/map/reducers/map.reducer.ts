@@ -32,4 +32,5 @@ export const reducer = createReducer(
   on(MapActions.loadListings, (state): State => ({ ...state, loading: true })),
   on(MapActions.addListings, (state, { records }) => mapAdapter.addMany(records, ({ ...state, loading: false, loaded: true }))),
   on(MapActions.loadListingsFailure, (state, { error }): State => ({ ...state, loading: false, error })),
+  on(MapActions.selectListing, (state, { selectedId }): State => ({ ...state, selectedId })),
 );

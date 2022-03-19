@@ -22,6 +22,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   constructor(private store: Store) {
     this.store.dispatch(MapActions.loadListings());
+    this.store.select(MapSelectors.selectSelectedEntity)
+      .subscribe(record => {
+        if (record === null) return;
+
+        const longitude = +record.geocode.Longitude;
+        const latitude = +record.geocode.Latitude;
+        const id = `${record.propertyID}`;
+
+        this.selectedMarkerId = id;
+        this.setMarkerStyles(id, true);
+        this.selectedLngLat = [longitude, latitude];
+        this.zoomIn([longitude, latitude]);
+      });
   }
 
   ngAfterViewInit(): void {
@@ -54,10 +67,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           .addTo(this.mapboxglMap);
 
         element.addEventListener('click', () => {
-          this.selectedMarkerId = id;
-          this.setMarkerStyles(id, true);
-          this.selectedLngLat = [longitude, latitude];
-          this.zoomIn([longitude, latitude]);
+          this.store.dispatch(MapActions.selectListing({ selectedId: id }));
         });
       });
 
