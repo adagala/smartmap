@@ -44,7 +44,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const marker = new mapboxgl.Marker({ color: 'blue' });
         const element = marker.getElement();
 
-        const id = `${propertyId}_${Math.abs(longitude)}_${Math.abs(latitude)}`;
+        const id = `${propertyId}`;
         element.id = id;
         this.markerIds = Array.from(new Set([...this.markerIds, id]));
         element.style.cursor = 'pointer';
@@ -57,7 +57,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           this.selectedMarkerId = id;
           this.setMarkerStyles(id, true);
           this.selectedLngLat = [longitude, latitude];
-          this.flyTo([longitude, latitude]);
+          this.zoomIn([longitude, latitude]);
         });
       });
 
@@ -66,7 +66,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       .subscribe(bounds => {
         this.bounds = bounds;
         this.fitBounds();
-      })
+      });
   }
 
   ngOnDestroy(): void {
@@ -88,7 +88,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  flyTo(center: mapboxgl.LngLatLike) {
+  zoomIn(center: mapboxgl.LngLatLike) {
     this.mapboxglMap.flyTo({
       center,
       zoom: 18,
@@ -103,6 +103,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setMarkerStyles(id: string, isSelectingPin?: boolean) {
+    if (!id) return;
+
     const elementSelected = document.getElementById(id);
     const svg = elementSelected.querySelector('svg');
     svg.style.width = isSelectingPin ? '125%' : '100%';
