@@ -1,4 +1,21 @@
 <div class="mapContainer">
-    <div class="nav"></div>
+    <div class="nav">
+        <button id="autoZoom" (click)="zoomOut()">
+            View All Properties
+        </button>
+
+        <ng-container *ngIf="selectedLngLat">
+            <br />
+            Selected Longitude: {{ selectedLngLat[0] }}
+            <br />
+            Selected Latitude: {{ selectedLngLat[1] }}
+        </ng-container>
+
+        <br />
+
+        <div>
+            Selected Marker ID: {{ selectedMarkerId }}
+        </div>
+    </div>
     <div class="map" id="map"></div>
 </div>
