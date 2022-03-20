@@ -14,6 +14,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private accessToken = 'pk.eyJ1IjoiYWRhZ2FsYSIsImEiOiJjbDB2ZnRnb2EwMXdjM2ptdDhwa3NxODA1In0.iJDvbyay4kzgGsNAgb3hAw';
   private records: Subscription;
   private boundsSubscription: Subscription;
+  private selectedEntitySubscription: Subscription;
   private mapboxglMap: mapboxgl.Map;
   private bounds: mapboxgl.LngLatBoundsLike;
   public selectedLngLat: [number, number];
@@ -22,7 +23,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   constructor(private store: Store) {
     this.store.dispatch(MapActions.loadListings());
-    this.store.select(MapSelectors.selectSelectedEntity)
+    this.selectedEntitySubscription = this.store.select(MapSelectors.selectSelectedEntity)
       .subscribe(record => {
         if (record === null) return;
 
@@ -82,6 +83,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.records?.unsubscribe();
     this.boundsSubscription?.unsubscribe();
+    this.selectedEntitySubscription?.unsubscribe();
   }
 
   zoomOut() {
