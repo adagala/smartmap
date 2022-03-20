@@ -121,8 +121,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Sets marker styles when selecting or unselecting a marker
-   * @param id zooming in or out
-   * @param isSelectingPin zooming in or out
+   * @param id selected element id
+   * @param isSelectingPin confirms if selecting pin or not
    * @returns void
    */
   private setMarkerStyles(id: string, isSelectingPin?: boolean): void {
