@@ -16,6 +16,32 @@
         <div>
             Selected Marker ID: {{ selectedMarkerId }}
         </div>
+
+        <ng-container *ngFor="let item of filteredMarkersId">
+            {{ item }}
+        </ng-container>
+
+        <ng-container *ngIf="!this.selectedMarkerId">
+
+            <b>Filter</b> <br />
+            <input id="pets" type="checkbox" name="pets" [(ngModel)]="pets" (change)="filterRecords()">
+            Pets
+            <br />
+
+            <input id="section8" type="checkbox" name="section8" [(ngModel)]="section8" (change)="filterRecords()">
+            Section 8
+            <br />
+
+            <ng-container *ngFor="let item of filteredRecords">
+                <div (click)="selectListing(item.propertyID)" style="cursor: pointer;">
+                    <br /> ____________________<br />
+                    Name: {{ item.name }}
+                    Pets: {{ item.pets }}
+                    Section 8: {{ item.section8 }}
+                </div>
+            </ng-container>
+
+        </ng-container>
     </div>
     <div class="map" id="map"></div>
 </div>
