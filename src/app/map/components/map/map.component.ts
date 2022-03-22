@@ -16,6 +16,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private records: Subscription;
   private boundsSubscription: Subscription;
   private selectedEntitySubscription: Subscription;
+  private filterSubscription: Subscription;
   private mapboxglMap: mapboxgl.Map;
   private bounds: mapboxgl.LngLatBoundsLike;
   public selectedLngLat: [number, number];
@@ -89,12 +90,34 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.bounds = bounds;
         this.fitBounds();
       });
+
+    this.filterSubscription = this.store.select(MapSelectors.selectFilteredEntities)
+      .subscribe(displayRecords => {
+        this.filteredRecords = [];
+        this.filteredMarkersId = [];
+
+        displayRecords.forEach(record => {
+          console.log({ name: record.name, id: record.propertyID, pets: record.pets, section8: record.section8 });
+          const elementSelected = document.getElementById(`${record.propertyID}`);
+
+          elementSelected.style.display = 'block';
+          this.filteredRecords = Array.from(new Set([...this.filteredRecords, record]));
+          this.filteredMarkersId = Array.from(new Set([...this.filteredMarkersId, `${record.propertyID}`]));
+        });
+
+        var hideRecords = this.allRecords.filter(x => !displayRecords.includes(x));
+        hideRecords.forEach(record => {
+          const elementSelected = document.getElementById(`${record.propertyID}`);
+          elementSelected.style.display = 'none';
+        });
+      });
   }
 
   ngOnDestroy(): void {
     this.records?.unsubscribe();
     this.boundsSubscription?.unsubscribe();
     this.selectedEntitySubscription?.unsubscribe();
+    this.filterSubscription?.unsubscribe();
   }
 
   selectListing(id: number) {
@@ -108,7 +131,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.selectedLngLat = undefined;
     this.selectedMarkerId = undefined;
     this.selectedRecord = undefined;
-    this.filteredRecords = (this.section8 || this.pets) ? this.filteredRecords : this.allRecords;
     this.fitBounds();
   }
 
@@ -180,32 +202,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   filterRecords() {
     if (!this.pets && !this.section8) {
       this.zoomOut();
-      return;
     }
 
-    this.filteredRecords = [];
-    this.filteredMarkersId = [];
-
-    this.allRecords.forEach(record => {
-      const elementSelected = document.getElementById(`${record.propertyID}`);
-      let showMarker = false;
-      if (this.pets && this.section8) {
-        showMarker = record.pets && record.section8;
-      }
-
-      if (this.pets && !this.section8) {
-        showMarker = record.pets;
-      }
-
-      if (!this.pets && this.section8) {
-        showMarker = record.section8;
-      }
-
-      elementSelected.style.display = showMarker ? 'block' : 'none';
-      if (showMarker) {
-        this.filteredRecords = Array.from(new Set([...this.filteredRecords, record]));
-        this.filteredMarkersId = Array.from(new Set([...this.filteredMarkersId, `${record.propertyID}`]));
-      }
-    });
+    this.store.dispatch(MapActions.filterListings({ pets: this.pets, section8: this.section8 }));
   }
 }
