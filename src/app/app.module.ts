@@ -9,11 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
-const MATERIAL_MODULES = [
-  MatToolbarModule
-]
 
 @NgModule({
   declarations: [
@@ -24,7 +19,6 @@ const MATERIAL_MODULES = [
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ...MATERIAL_MODULES,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
