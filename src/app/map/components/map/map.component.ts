@@ -147,9 +147,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   zoomIn(center: mapboxgl.LngLatLike) {
     this.mapboxglMap.flyTo({
       center,
-      zoom: 18,
+      zoom: 17,
       bearing: 0,
-      speed: 1.5,
+      speed: 2,
       curve: 1,
       easing: (t) => t,
       essential: true
