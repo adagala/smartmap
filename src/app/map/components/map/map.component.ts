@@ -97,7 +97,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.filteredMarkersId = [];
 
         displayRecords.forEach(record => {
-          console.log({ name: record.name, id: record.propertyID, pets: record.pets, section8: record.section8 });
           const elementSelected = document.getElementById(`${record.propertyID}`);
 
           elementSelected.style.display = 'block';
