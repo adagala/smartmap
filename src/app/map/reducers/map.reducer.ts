@@ -5,14 +5,14 @@ import { IRecord } from '../models';
 
 
 export const mapFeatureKey = 'map';
-export interface State extends EntityState<Partial<IRecord>> {
+export interface State extends EntityState<IRecord> {
   loaded: boolean;
   loading: boolean;
   selectedId: string | null;
   pets: boolean | null;
   section8: boolean | null;
   error: string | null;
-  ids: string[],
+  ids: number[],
   entities: {},
 }
 

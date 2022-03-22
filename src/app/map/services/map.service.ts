@@ -8,7 +8,7 @@ import { IRecord } from '../models';
 })
 export class MapService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http?: HttpClient) { }
 
   /**
    * Gets all property records as an observable
