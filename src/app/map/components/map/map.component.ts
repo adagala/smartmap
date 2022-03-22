@@ -169,8 +169,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     const elementSelected = document.getElementById(id);
     const svg = elementSelected.querySelector('svg');
-    svg.style.width = isSelectingPin ? '125%' : '100%';
-    svg.style.height = isSelectingPin ? '125%' : '100%';
+    svg.style.width = isSelectingPin ? '150%' : '100%';
+    svg.style.height = isSelectingPin ? '150%' : '100%';
     const fillColor = isSelectingPin ? 'red' : 'blue';
     svg.querySelector('path').style.fill = fillColor;
   }
