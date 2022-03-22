@@ -9,9 +9,13 @@ import { StoreModule } from '@ngrx/store';
 import * as fromMaps from './reducers'
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 
 const MATERIAL_MODULES = [
-  MatToolbarModule
+  MatToolbarModule,
+  MatButtonModule,
+  MatListModule
 ]
 
 @NgModule({

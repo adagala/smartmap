@@ -4,8 +4,10 @@
             <span>Smart Map</span>
         </mat-toolbar>
 
-        <button id="autoZoom" (click)="zoomOut()">
-            View All Properties
+        <br />
+
+        <button mat-flat-button color="primary" (click)="zoomOut()">
+            Zoom Out
         </button>
 
         <ng-container *ngIf="selectedLngLat">
@@ -15,18 +17,8 @@
             Selected Latitude: {{ selectedLngLat[1] }}
         </ng-container>
 
-        <br />
-
-        <div>
-            Selected Marker ID: {{ selectedMarkerId }}
-        </div>
-
-        <ng-container *ngFor="let item of filteredMarkersId">
-            {{ item }}
-        </ng-container>
-
-        <ng-container *ngIf="!this.selectedMarkerId">
-
+        <ng-container *ngIf="!this.selectedMarkerId else selectedMarker">
+            <br /><br />
             <b>Filter</b> <br />
             <input id="pets" type="checkbox" name="pets" [(ngModel)]="pets" (change)="filterRecords()">
             Pets
@@ -36,16 +28,22 @@
             Section 8
             <br />
 
-            <ng-container *ngFor="let item of filteredRecords">
-                <div (click)="selectListing(item.propertyID)" style="cursor: pointer;">
-                    <br /> ____________________<br />
-                    Name: {{ item.name }}
-                    Pets: {{ item.pets }}
-                    Section 8: {{ item.section8 }}
-                </div>
-            </ng-container>
-
+            <mat-action-list>
+                <button *ngFor="let record of filteredRecords" mat-list-item (click)="selectListing(record.propertyID)">
+                    <b>
+                        {{ record?.name }}
+                    </b>
+                </button>
+            </mat-action-list>
         </ng-container>
+        <ng-template #selectedMarker>
+            <br />
+            <b>
+                {{ selectedRecord?.name }}
+            </b>
+        </ng-template>
+
+        <!-- </ng-container> -->
     </div>
     <div class="map" id="map"></div>
 </div>
