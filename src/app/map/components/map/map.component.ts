@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as mapboxgl from 'mapbox-gl';
 import { map, mergeMap, Subscription } from 'rxjs';
 import * as MapActions from '../../actions';
+import { IRecord } from '../../models';
 import * as MapSelectors from '../../selectors';
 
 @Component({
@@ -15,11 +16,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private records: Subscription;
   private boundsSubscription: Subscription;
   private selectedEntitySubscription: Subscription;
+  private filterSubscription: Subscription;
   private mapboxglMap: mapboxgl.Map;
   private bounds: mapboxgl.LngLatBoundsLike;
   public selectedLngLat: [number, number];
   public selectedMarkerId: string;
+  public filteredMarkersId: string[] = [];
   private markerIds: string[] = [];
+  public selectedRecord: IRecord;
+  private allRecords: IRecord[] = [];
+  public filteredRecords: IRecord[] = [];
+  public pets = false;
+  public section8 = false;
 
   constructor(private store: Store) {
     this.store.dispatch(MapActions.loadListings());
@@ -31,6 +39,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const latitude = +record.geocode.Latitude;
         const id = `${record.propertyID}`;
 
+        this.selectedRecord = record;
         this.selectedMarkerId = id;
         this.setMarkerStyles(id, true);
         this.selectedLngLat = [longitude, latitude];
@@ -54,6 +63,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const longitude = +record.geocode.Longitude;
         const latitude = +record.geocode.Latitude;
         const propertyId = record.propertyID;
+        this.allRecords = Array.from(new Set([...this.allRecords, record]));
+        this.filteredRecords = Array.from(new Set([...this.filteredRecords, record]));
 
         const marker = new mapboxgl.Marker({ color: 'blue' });
         const element = marker.getElement();
@@ -61,6 +72,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         const id = `${propertyId}`;
         element.id = id;
         this.markerIds = Array.from(new Set([...this.markerIds, id]));
+        this.filteredMarkersId = Array.from(new Set([...this.filteredMarkersId, id]));
         element.style.cursor = 'pointer';
 
         marker
@@ -68,7 +80,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           .addTo(this.mapboxglMap);
 
         element.addEventListener('click', () => {
-          this.store.dispatch(MapActions.selectListing({ selectedId: id }));
+          this.selectListing(record.propertyID);
         });
       });
 
@@ -78,12 +90,38 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.bounds = bounds;
         this.fitBounds();
       });
+
+    this.filterSubscription = this.store.select(MapSelectors.selectFilteredEntities)
+      .subscribe(displayRecords => {
+        this.filteredRecords = [];
+        this.filteredMarkersId = [];
+
+        displayRecords.forEach(record => {
+          const elementSelected = document.getElementById(`${record.propertyID}`);
+
+          elementSelected.style.display = 'block';
+          this.filteredRecords = Array.from(new Set([...this.filteredRecords, record]));
+          this.filteredMarkersId = Array.from(new Set([...this.filteredMarkersId, `${record.propertyID}`]));
+        });
+
+        var hideRecords = this.allRecords.filter(x => !displayRecords.includes(x));
+        hideRecords.forEach(record => {
+          const elementSelected = document.getElementById(`${record.propertyID}`);
+          elementSelected.style.display = 'none';
+        });
+      });
   }
 
   ngOnDestroy(): void {
     this.records?.unsubscribe();
     this.boundsSubscription?.unsubscribe();
     this.selectedEntitySubscription?.unsubscribe();
+    this.filterSubscription?.unsubscribe();
+  }
+
+  selectListing(id: number) {
+    const selectedId = `${id}`;
+    this.store.dispatch(MapActions.selectListing({ selectedId }));
   }
 
   zoomOut() {
@@ -91,6 +129,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.toggleMarkerDisplay(true);
     this.selectedLngLat = undefined;
     this.selectedMarkerId = undefined;
+    this.selectedRecord = undefined;
     this.fitBounds();
   }
 
@@ -143,11 +182,27 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @returns void
    */
   private toggleMarkerDisplay(isZoomOut = false): void {
+    const hasFilter = this.pets || this.section8;
+
     this.markerIds.forEach(markerId => {
+      const elementSelected = document.getElementById(markerId);
+
       if (this.selectedMarkerId === markerId) return;
 
-      const elementSelected = document.getElementById(markerId);
-      elementSelected.style.display = isZoomOut ? 'block' : 'none';
+      if (!isZoomOut || (isZoomOut && !hasFilter)) {
+        elementSelected.style.display = isZoomOut ? 'block' : 'none';
+        return;
+      }
+
+      elementSelected.style.display = this.filteredMarkersId.includes(markerId) ? 'block' : 'none';
     });
+  }
+
+  filterRecords() {
+    if (!this.pets && !this.section8) {
+      this.zoomOut();
+    }
+
+    this.store.dispatch(MapActions.filterListings({ pets: this.pets, section8: this.section8 }));
   }
 }

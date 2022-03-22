@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MapEffects } from './effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromMaps from './reducers'
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import * as fromMaps from './reducers'
   imports: [
     CommonModule,
     MapRoutingModule,
+    FormsModule,
     StoreModule.forFeature(fromMaps.mapFeatureKey, fromMaps.reducer),
     EffectsModule.forFeature([MapEffects])
   ]

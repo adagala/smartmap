@@ -19,3 +19,8 @@ export const selectListing = createAction(
   '[Map] Select Listing',
   props<{ selectedId: string }>()
 );
+
+export const filterListings = createAction(
+  '[Map] Filter Listings',
+  props<{ pets: boolean, section8: boolean }>()
+);
